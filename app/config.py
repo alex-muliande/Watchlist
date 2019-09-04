@@ -2,7 +2,7 @@ class Config:
     '''
     General configuration parent class
     '''
-    pass
+    MOVIE_API_BASE_URL = 'https://api.themoviedb.org/3/movie/550?api_key=c87923da94b6cb0b665d3f7d1f84efe3'
 
 
 
