@@ -1,16 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {% if title %}
-    <title> {{ title }}</title>
-    {% else %}
-    <title> Welcome to the Best movie Review website </title>
-    {% endif %}
-</head>
-<body>
-    
-</body>
-</html>
+{% extends 'base.html'%}
+{% import 'macros.html' as macro%}
+
+<!-- Content block -->
+{% block content %}
+
+<!-- Popular movie -->
+<h3> Popular Movies</h3>
+<ul>
+    {{ macro.displayMovieList(popular)}}
+</ul>
+<!-- Upcoming movie  -->
+<h3> Upcoming Movies </h3>
+<ul>
+    {{ macro.displayMovieList(upcoming)}}
+</ul>
+<!-- Now showing movie -->
+<h3>Now Showing</h3>
+<ul>
+    {{ macro.displayMovieList(now_showing)}}
+</ul>
+
+
+{% endblock%}
