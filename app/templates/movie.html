@@ -1,6 +1,7 @@
 {% extends 'base.html'%}
 <!-- Content block-->
 {% block content %}
+{% import 'macros.html' as macros %}
 <div class="container">
 
     <!-- Poster background -->
@@ -26,5 +27,23 @@
         <a class="ratings" href="/movie/review/new/{{movie.id}}"> Write a new review</a>
 
     </div>
+
+
+    <div class="row">
+
+            <h1>Reviews</h1>
+            <hr>
+    
+            {% if reviews %}
+                {{macro.displayReviews(reviews)}}
+    
+            {% else%}
+                <h3 class="text-center">This movie has no reviews </h3>
+    
+                <a class="btn btn-success btn-lg text-center" href="/movie/review/new/{{movie.id}}"> Write a new review</a>
+            {% endif %}
+    
+        </div>
+
 </div>
 {% endblock %}
