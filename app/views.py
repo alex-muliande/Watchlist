@@ -8,32 +8,41 @@ from .requests import get_movies, get_movie, search_movie
 from .forms import ReviewForm
 Review = review.Review
 
-
-# # Views
-# @app.route('/')
-# def index():
-#     '''
-#     View root page function that returns the index page and its data
-#     '''
-
-#     # Getting popular movie
-#     popular_movies = get_movies('popular')
-#     upcoming_movie = get_movies('upcoming')
-#     now_showing_movie = get_movies('now_playing')
-#     title = 'Home - Welcome to The best Movie Review Website Online'
-#     return render_template('index.html', title=title, popular=popular_movies, upcoming=upcoming_movie, now_showing=now_showing_movie)
+# Views
 
 
-# @app.route('/movie/<int:id>')
-# def movie(id):
+@app.route('/')
+def index():
+    '''
+    View root page function that returns the index page and its data
+    '''
 
-#     '''
-#     View movie page function that returns the movie details page and its data
-#     '''
-#     movie = get_movie(id)
-#     title = f'{movie.title}'
+    # Getting popular movie
+    popular_movies = get_movies('popular')
+    upcoming_movie = get_movies('upcoming')
+    now_showing_movie = get_movies('now_playing')
 
-#     return render_template('movie.html',title = title,movie = movie)
+    title = 'Home - Welcome to The best Movie Review Website Online'
+
+    search_movie = request.args.get('movie_query')
+
+    if search_movie:
+        return redirect(url_for('search', movie_name=search_movie))
+    else:
+        return render_template('index.html', title=title, popular=popular_movies, upcoming=upcoming_movie, now_showing=now_showing_movie)
+
+
+@app.route('/movie/<int:id>')
+def movie(id):
+    '''
+    View movie page function that returns the movie details page and its data
+    '''
+    movie = get_movie(id)
+    title = f'{movie.title}'
+    reviews = Review.get_reviews(movie.id)
+
+    return render_template('movie.html', title=title, movie=movie, reviews=reviews)
+
 
 @app.route('/search/<movie_name>')
 def search(movie_name):
@@ -61,38 +70,3 @@ def new_review(id):
 
     title = f'{movie.title} review'
     return render_template('new_review.html', title=title, review_form=form, movie=movie)
-
-
-@app.route('/movie/<int:id>')
-def movie(id):
-    '''
-    View movie page function that returns the movie details page and its data
-    '''
-    movie = get_movie(id)
-    title = f'{movie.title}'
-    reviews = Review.get_reviews(movie.id)
-
-    return render_template('movie.html', title=title, movie=movie, reviews=reviews)
-
-    # Views
-
-
-@app.route('/')
-def index():
-    '''
-    View root page function that returns the index page and its data
-    '''
-
-    # Getting popular movie
-    popular_movies = get_movies('popular')
-    upcoming_movie = get_movies('upcoming')
-    now_showing_movie = get_movies('now_playing')
-
-    title = 'Home - Welcome to The best Movie Review Website Online'
-
-    search_movie = request.args.get('movie_query')
-
-    if search_movie:
-        return redirect(url_for('search', movie_name=search_movie))
-    else:
-        return render_template('index.html', title=title, popular=popular_movies, upcoming=upcoming_movie, now_showing=now_showing_movie)
