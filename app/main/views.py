@@ -4,10 +4,9 @@ from . import main
 from ..requests import get_movies, get_movie, search_movie
 from .forms import ReviewForm
 from ..models import Review
-from app import app
 
 # Views
-@app.route('/')
+@main.route('/')
 def index():
     '''
     View root page function that returns the index page and its data
@@ -28,7 +27,7 @@ def index():
         return render_template('index.html', title=title, popular=popular_movies, upcoming=upcoming_movie, now_showing=now_showing_movie)
 
 
-@app.route('/movie/<int:id>')
+@main.route('/movie/<int:id>')
 def movie(id):
     '''
     View movie page function that returns the movie details page and its data
@@ -40,7 +39,7 @@ def movie(id):
     return render_template('movie.html', title=title, movie=movie, reviews=reviews)
 
 
-@app.route('/search/<movie_name>')
+@main.route('/search/<movie_name>')
 def search(movie_name):
     '''
     View function to display the search results
@@ -52,7 +51,7 @@ def search(movie_name):
     return render_template('search.html', movies=searched_movies)
 
 
-@app.route('/movie/review/new/<int:id>', methods=['GET', 'POST'])
+@main.route('/movie/review/new/<int:id>', methods=['GET', 'POST'])
 def new_review(id):
     form = ReviewForm()
     movie = get_movie(id)
